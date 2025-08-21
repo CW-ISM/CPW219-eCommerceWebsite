@@ -43,5 +43,6 @@ public class Product
     /// The current sales price of the product
     /// </summary>
     [Range(0, 100000)]
+    [DataType(DataType.Currency)]
     public decimal Price { get; set; } = decimal.Zero;
 }
