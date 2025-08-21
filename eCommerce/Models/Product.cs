@@ -43,5 +43,5 @@ public class Product
     /// The current sales price of the product
     /// </summary>
     [Range(0, 100000)]
-    public double Price { get; set; } = 0.0;
+    public decimal Price { get; set; } = decimal.Zero;
 }
