@@ -20,6 +20,10 @@ namespace eCommerce.Controllers
 
         public IActionResult Privacy()
         {
+            if (HttpContext.Session.GetInt32("MemberId") == null)
+            {
+                return RedirectToAction("Login", "Member");
+            }
             return View();
         }
 

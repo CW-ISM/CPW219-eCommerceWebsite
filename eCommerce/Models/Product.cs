@@ -11,7 +11,7 @@ public class Product
     /// The unique identifier for the product
     /// </summary>
     [Key]
-    public int Id { get; set; }
+    public int ProductId { get; set; }
 
     /// <summary>
     /// The user facing name of the product
@@ -23,6 +23,7 @@ public class Product
     /// <summary>
     /// Unique identifier for the product, used for inventory and sales tracking
     /// </summary>
+    [Required]
     [StringLength(12, MinimumLength = 8, ErrorMessage = "The SKU must be between {2} and {1} characters long")]
     public string SKU { get; set; } = string.Empty;
 
@@ -31,13 +32,13 @@ public class Product
     /// </summary>
     /// 
     [StringLength(64, MinimumLength = 1, ErrorMessage = "Brand must be between {2} and {1} characters long")]
-    public string Brand { get; set; } = string.Empty;
+    public string? Brand { get; set; }
 
     /// <summary>
     /// Detailed description of the product
     /// </summary>
     [StringLength(500, ErrorMessage = "Description cannot be more than 500 characters")]
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
 
     /// <summary>
     /// The current sales price of the product
