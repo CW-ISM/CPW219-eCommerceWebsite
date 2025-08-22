@@ -42,4 +42,22 @@ public class ProductController : Controller
         }
         return View(product);
     }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        Product? product = _context.Products.Where(p => p.Id == id).FirstOrDefault();
+        if (product == null)
+        {
+            TempData["ErrorMessage"] = "Product not found.";
+            return NotFound();
+        }
+        return View(product);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(int id)
+    {
+        Product product = await _context.Products.FindAsync();
+    }
 }
