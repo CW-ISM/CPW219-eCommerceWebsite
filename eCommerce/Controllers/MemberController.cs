@@ -41,4 +41,10 @@ public class MemberController : Controller
 
         return View(model);
     }
+
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return View();
+    }
 }
