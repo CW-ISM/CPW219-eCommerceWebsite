@@ -67,8 +67,21 @@ public class MemberController : Controller
                 return View(model);
             }
 
+            // Store the member in session or authentication cookie
+            HttpContext.Session.SetString("Username", loggedInMember.Username);
+            HttpContext.Session.SetInt32("MemberId", loggedInMember.MemberId);
+
             return RedirectToAction("Index", "Home");
         }
         return View(model);
+    }
+
+    [HttpGet]
+    public IActionResult Logout()
+    {
+        // Clear the session or authentication cookie
+        HttpContext.Session.Clear();
+        TempData["SuccessMessage"] = "You have been logged out successfully.";
+        return RedirectToAction("Index", "Home");
     }
 }
