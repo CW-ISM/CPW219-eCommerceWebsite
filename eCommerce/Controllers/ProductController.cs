@@ -90,6 +90,25 @@ public class ProductController : Controller
             return NotFound();
         }
 
-        return View();
+        return View(product);
+    }
+
+    [ActionName("Delete")]
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        Product? product = await _context.Products.FindAsync(id); // Find the product by ID
+
+        if (product == null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        _context.Remove(product); // Remove the product from the context
+        await _context.SaveChangesAsync(); // Save changes to the database
+
+        TempData["SuccessMessage"] = $"{product.Name} was deleted successfully!";
+
+        return RedirectToAction(nameof(Index));
     }
 }
