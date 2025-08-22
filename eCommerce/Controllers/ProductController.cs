@@ -44,11 +44,9 @@ public class ProductController : Controller
     }
 
     [HttpGet]
-    public IActionResult Edit(int id)
+    public async Task<IActionResult> Edit(int id)
     {
-        Product? product = _context.Products
-            .Where(p => p.Id == id)
-            .FirstOrDefault();
+        Product? product = await _context.Products.FindAsync(id);
 
         if (product == null)
         {
@@ -61,7 +59,7 @@ public class ProductController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(Product product)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
             _context.Update(product); // Update the product in the context
             await _context.SaveChangesAsync(); // Save changes to the database
@@ -72,5 +70,37 @@ public class ProductController : Controller
         }
 
         return View(product);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        Product? product = await _context.Products.FindAsync(id);
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        return View(product);
+    }
+
+    [ActionName("Delete")]
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        Product? product = await _context.Products.FindAsync(id); // Find the product by ID
+
+        if (product == null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        _context.Remove(product); // Remove the product from the context
+        await _context.SaveChangesAsync(); // Save changes to the database
+
+        TempData["SuccessMessage"] = $"{product.Name} was deleted successfully!";
+
+        return RedirectToAction(nameof(Index));
     }
 }
