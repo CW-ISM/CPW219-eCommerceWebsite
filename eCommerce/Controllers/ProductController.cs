@@ -44,11 +44,9 @@ public class ProductController : Controller
     }
 
     [HttpGet]
-    public IActionResult Edit(int id)
+    public async Task<IActionResult> Edit(int id)
     {
-        Product? product = _context.Products
-            .Where(p => p.Id == id)
-            .FirstOrDefault();
+        Product? product = await _context.Products.FindAsync(id);
 
         if (product == null)
         {
@@ -74,17 +72,11 @@ public class ProductController : Controller
         return View(product);
     }
 
-    
-    public IActionResult Delete(int id)
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
     {
-        if (id <= 0)
-        {
-            return BadRequest("Invalid product ID.");
-        }
+        Product? product = await _context.Products.FindAsync(id);
 
-        Product? product = _context.Products
-            .Where(p => p.Id == id)
-            .FirstOrDefault();
         if (product == null)
         {
             return NotFound();
