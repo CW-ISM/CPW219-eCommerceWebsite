@@ -73,4 +73,23 @@ public class ProductController : Controller
 
         return View(product);
     }
+
+    
+    public IActionResult Delete(int id)
+    {
+        if (id <= 0)
+        {
+            return BadRequest("Invalid product ID.");
+        }
+
+        Product? product = _context.Products
+            .Where(p => p.Id == id)
+            .FirstOrDefault();
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        return View();
+    }
 }
