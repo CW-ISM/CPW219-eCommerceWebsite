@@ -59,7 +59,7 @@ public class ProductController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(Product product)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
             _context.Update(product); // Update the product in the context
             await _context.SaveChangesAsync(); // Save changes to the database
