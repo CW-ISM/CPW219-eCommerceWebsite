@@ -46,18 +46,31 @@ public class ProductController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        Product? product = _context.Products.Where(p => p.Id == id).FirstOrDefault();
+        Product? product = _context.Products
+            .Where(p => p.Id == id)
+            .FirstOrDefault();
+
         if (product == null)
         {
-            TempData["ErrorMessage"] = "Product not found.";
+            //TempData["ErrorMessage"] = "Product not found.";
             return NotFound();
         }
         return View(product);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(Product product)
     {
-        Product product = await _context.Products.FindAsync();
+        if (!ModelState.IsValid)
+        {
+            _context.Update(product); // Update the product in the context
+            await _context.SaveChangesAsync(); // Save changes to the database
+
+            TempData["SuccessMessage"] = $"{product.Name} was updated successfully!";
+
+            return RedirectToAction("Index");
+        }
+
+        return View(product);
     }
 }
