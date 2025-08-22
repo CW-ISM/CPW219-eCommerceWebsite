@@ -31,13 +31,13 @@ public class Product
     /// </summary>
     /// 
     [StringLength(64, MinimumLength = 1, ErrorMessage = "Brand must be between {2} and {1} characters long")]
-    public string Brand { get; set; } = string.Empty;
+    public string? Brand { get; set; }
 
     /// <summary>
     /// Detailed description of the product
     /// </summary>
     [StringLength(500, ErrorMessage = "Description cannot be more than 500 characters")]
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
 
     /// <summary>
     /// The current sales price of the product
