@@ -79,3 +79,18 @@ public class RegisterationViewModel
     [DataType(DataType.Date)]
     public DateOnly BirthDate { get; set; }
 }
+
+public class LoginViewModel
+{
+    /// <summary>
+    /// The email address of the member
+    /// </summary>
+    [Required]
+    public required string EmailOrUsername { get; set; }
+    /// <summary>
+    /// The password for the member account
+    /// </summary>
+    [Required]
+    [DataType(DataType.Password)]
+    public required string Password { get; set; }
+}
