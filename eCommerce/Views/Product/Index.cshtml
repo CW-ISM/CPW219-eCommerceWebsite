@@ -41,7 +41,9 @@ else
                     <td>@Html.DisplayFor(p => product.Name)</td>
                     <td>@Html.DisplayFor(p => product.SKU)</td>
                     <td>@Html.DisplayFor(p => product.Price)</td>
-                    <td>Update -- Delete</td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id">Update</a>
+                    </td>
                 </tr>
             }
     </table>
