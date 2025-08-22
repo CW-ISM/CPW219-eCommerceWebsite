@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using eCommerce.Models;
 using eCommerce.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerce.Controllers;
 
@@ -46,5 +47,28 @@ public class MemberController : Controller
     public IActionResult Login()
     {
         return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            // Here you would typically check the credentials against the database
+            // For now, we will just return a success message
+            Member? loggedInMember = await _context.Members
+                                .Where(m => (m.Username == model.EmailOrUsername || m.Email == model.EmailOrUsername)
+                                && m.Password == model.Password)
+                                .SingleOrDefaultAsync();
+
+            if(loggedInMember == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt. Please check your credentials.");
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+        return View(model);
     }
 }
